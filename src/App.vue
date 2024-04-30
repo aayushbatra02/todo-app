@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-200 w-[100vw] h-[100vh]">
+  <div class="bg-gray-200 pb-10 w-[95%] md:w-[80%] lg:w-[60%] xl:w-[40%] mx-auto my-20 rounded-lg">
     <NavBar />
     <router-view />
   </div>

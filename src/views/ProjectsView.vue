@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[60%] m-auto">
+  <div class="px-8 text-sm md:text-normal">
     <div class="flex gap-4 text-gray-500 mb-5">
       <button
         :class="{ 'text-black': activeFilter === 'viewAll' }"
@@ -32,21 +32,21 @@
         @click="detailHandler(project.id)"
       >
         <div class="flex justify-between">
-          <div class="font-semibold text-xl">{{ project.title }}</div>
+          <div class="font-semibold text-base md:text-xl">{{ project.title }}</div>
           <div class="flex gap-3 items-center">
             <Icon
               @click.stop="deleteHandler(project.id)"
-              class="w-6 h-6 cursor-pointer text-gray-400 hover:text-red-700"
+              class="w-5 h-5 lg:w-6 lg:h-6 cursor-pointer text-gray-400 hover:text-red-700"
               icon="ic:baseline-delete"
             />
             <Icon
-              class="w-6 h-6 cursor-pointer text-gray-400 hover:text-blue-500"
+              class="w-5 h-5 lg:w-6 lg:h-6 cursor-pointer text-gray-400 hover:text-blue-500"
               icon="ic:baseline-edit"
               @click.stop="editHandler(project.id)"
             />
             <Icon
               @click.stop="checkHandler(project.id)"
-              class="w-6 h-6 cursor-pointer text-gray-400"
+              class="w-5 h-5 lg:w-6 lg:h-6 cursor-pointer text-gray-400"
               icon="ic:baseline-check"
               :class="[project.isCompleted ? 'text-green-500' : '']"
             />
@@ -80,41 +80,6 @@ export default {
     }
     this.projects = projectsInLocal;
     this.filteredProjects = projectsInLocal;
-
-    // const testProjects = [
-    //   {
-    //     id: 1714473636515,
-    //     title: "test1",
-    //     details: "desc1",
-    //     isCompleted: false,
-    //   },
-    //   {
-    //     id: 1714473645180,
-    //     title: "test2",
-    //     details: "desc2",
-    //     isCompleted: true,
-    //   },
-    //   {
-    //     id: 1714473654024,
-    //     title: "test3",
-    //     details: "desc3",
-    //     isCompleted: true,
-    //   },
-    //   {
-    //     id: 1714473662646,
-    //     title: "test4",
-    //     details: "ustry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic ty",
-    //     isCompleted: true,
-    //   },
-    //   {
-    //     id: 1714473672228,
-    //     title: "test5",
-    //     details: "desc5",
-    //     isCompleted: false,
-    //   },
-    // ];
-    // localStorage.setItem("projects", JSON.stringify(testProjects));
-    // this.projects = testProjects;
   },
   methods: {
     filterHandler(filter) {

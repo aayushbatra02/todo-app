@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col bg-white w-[60%] m-auto p-4">
+  <div class="flex flex-col bg-white mx-4 lg:mx-8 p-4 rounded-lg">
     <label class="text-gray-400 my-4" for="title">TITLE</label>
     <input
       @input="validateTitle"
@@ -14,7 +14,7 @@
     <textarea
       @input="validateDetails"
       v-model="details"
-      class="focus:border-none p-2 border-2 border-gray-20"
+      class="focus:border-none p-2 border-2 border-gray-20 lg:min-w-80"
       type="text"
     ></textarea>
     <div v-if="detailsErrorMessage" class="text-red-500 my-2">
@@ -88,8 +88,7 @@ export default {
           });
         }
         localStorage.setItem("projects", JSON.stringify(projects));
-        this.title = "";
-        this.details = "";
+        this.$router.push({ name: "projects"});
       }
     },
   },
