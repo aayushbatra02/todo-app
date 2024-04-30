@@ -29,22 +29,23 @@
         :class="[project.isCompleted ? 'border-green-500' : 'border-pink-600']"
         v-for="project in filteredProjects"
         :key="project.id"
-        @click="descriptionHandler(project.id)"
+        @click="detailHandler(project.id)"
       >
         <div class="flex justify-between">
           <div class="font-semibold text-xl">{{ project.title }}</div>
           <div class="flex gap-3 items-center">
             <Icon
-              @click="deleteHandler(project.id)"
+              @click.stop="deleteHandler(project.id)"
               class="w-6 h-6 cursor-pointer text-gray-400 hover:text-red-700"
               icon="ic:baseline-delete"
             />
             <Icon
               class="w-6 h-6 cursor-pointer text-gray-400 hover:text-blue-500"
               icon="ic:baseline-edit"
+              @click.stop="editHandler(project.id)"
             />
             <Icon
-              @click="checkHandler(project.id)"
+              @click.stop="checkHandler(project.id)"
               class="w-6 h-6 cursor-pointer text-gray-400"
               icon="ic:baseline-check"
               :class="[project.isCompleted ? 'text-green-500' : '']"
@@ -68,7 +69,7 @@ export default {
       activeFilter: "viewAll",
       projects: [],
       filteredProjects: [],
-      descriptionIds: [],
+      detailIds: [],
     };
   },
   mounted() {
@@ -112,7 +113,7 @@ export default {
     //     isCompleted: false,
     //   },
     // ];
-    // localStorage.setItem("products", JSON.stringify(testProjects));
+    // localStorage.setItem("projects", JSON.stringify(testProjects));
     // this.projects = testProjects;
   },
   methods: {
@@ -156,20 +157,22 @@ export default {
     },
     isDescIdPresent(id) {
       let isPresent = false;
-      if (this.descriptionIds.find((descId) => descId === id)) {
+      if (this.detailIds.find((descId) => descId === id)) {
         isPresent = true;
       }
       return isPresent;
     },
-    descriptionHandler(id) {
+    detailHandler(id) {
       if (this.isDescIdPresent(id)) {
-        const newIds = this.descriptionIds.filter((descId) => descId !== id);
-        this.descriptionIds = newIds;
+        const newIds = this.detailIds.filter((descId) => descId !== id);
+        this.detailIds = newIds;
       } else {
-        const newIds = [...this.descriptionIds, id];
-        this.descriptionIds = newIds;
+        const newIds = [...this.detailIds, id];
+        this.detailIds = newIds;
       }
-      console.log(this.descriptionIds);
+    },
+    editHandler(id) {
+      this.$router.push({ name: "editProject", params: { editId: id } });
     },
   },
   watch: {
@@ -177,7 +180,7 @@ export default {
       this.filterHandler(this.activeFilter);
     },
     activeFilter() {
-      this.descriptionIds = [];
+      this.detailIds = [];
     },
   },
 };

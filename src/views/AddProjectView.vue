@@ -24,7 +24,8 @@
       @click="addProjectHandler"
       class="my-4 bg-green-600 w-max m-auto text-white px-3 py-2 rounded-lg"
     >
-      Add Project
+      <span v-if="editId">Update Project</span>
+      <span v-else>Add Project</span>
     </button>
   </div>
 </template>
@@ -38,7 +39,17 @@ export default {
       titleErrorMessage: null,
       detailsErrorMessage: null,
       doValidation: false,
+      editId: null,
     };
+  },
+  mounted() {
+    this.editId = Number(this.$route.params.editId);
+    const projects = JSON.parse(localStorage.getItem("projects"));
+    const project = projects.find((project) => project.id === this.editId);
+    if (project) {
+      this.title = project.title;
+      this.details = project.details;
+    }
   },
   methods: {
     validateTitle() {
@@ -59,12 +70,23 @@ export default {
           projects = [];
           localStorage.setItem("projects", JSON.stringify(projects));
         }
-        projects.push({
-          id: new Date().getTime(),
-          title: this.title,
-          details: this.details,
-          isCompleted: false,
-        });
+        if (this.editId) {
+          const updatedProjects = projects.map((project) => {
+            if (project.id === this.editId) {
+              project.title = this.title;
+              project.details = this.details;
+            }
+            return project;
+          });
+          projects = updatedProjects;
+        } else {
+          projects.push({
+            id: new Date().getTime(),
+            title: this.title,
+            details: this.details,
+            isCompleted: false,
+          });
+        }
         localStorage.setItem("projects", JSON.stringify(projects));
         this.title = "";
         this.details = "";
