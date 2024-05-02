@@ -13,7 +13,7 @@ const routes = [
     component: () => import("../views/AddProjectView.vue"),
   },
   {
-    path: "/update-project/:editId",
+    path: "/project/:editId",
     name: "editProject",
     component: () => import("../views/AddProjectView.vue"),
   },

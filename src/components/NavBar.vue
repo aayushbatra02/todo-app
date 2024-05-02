@@ -3,10 +3,19 @@
     <RouterLink activeClass="border-b-2 border-green-500" to="/"
       >Projects</RouterLink
     >
-    <RouterLink activeClass="border-b-2 border-green-500" to="/add-project"
-      ><span v-if="editId">Update Project</span
-      ><span v-else>Add a New Project</span>
-    </RouterLink>
+    <RouterLink
+      v-if="!editId"
+      activeClass="border-b-2 border-green-500"
+      to="/add-project"
+    >
+      Add a new project</RouterLink
+    >
+    <RouterLink
+      v-else
+      activeClass="border-b-2 border-green-500"
+      :to="`/project/${editId}`"
+      >Update Project</RouterLink
+    >
   </div>
 </template>
 
