@@ -35,8 +35,8 @@
           :key="project.id"
           @click="detailHandler(project.id)"
         >
-          <div class="flex justify-between">
-            <div class="font-semibold text-base md:text-xl">
+          <div class="flex justify-between flex-wrap">
+            <div class="font-semibold text-base md:text-xl overflow-anywhere">
               {{ project.title }}
             </div>
             <div class="flex gap-3 items-center">
@@ -64,7 +64,7 @@
               />
             </div>
           </div>
-          <div v-if="isDescIdPresent(project.id)" class="text-gray-500 mt-2">
+          <div v-if="isDescIdPresent(project.id)" class="text-gray-500 mt-2 overflow-anywhere">
             {{ project.details }}
           </div>
         </div>
@@ -171,3 +171,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.overflow-anywhere {
+  overflow-wrap: anywhere !important;
+}
+</style>

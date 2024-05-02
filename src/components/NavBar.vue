@@ -4,9 +4,9 @@
       >Projects</RouterLink
     >
     <RouterLink activeClass="border-b-2 border-green-500" to="/add-project"
-      ><span v-if="editId">Update</span><span v-else>Add</span> a New
-      Project</RouterLink
-    >
+      ><span v-if="editId">Update Project</span
+      ><span v-else>Add a New Project</span>
+    </RouterLink>
   </div>
 </template>
 

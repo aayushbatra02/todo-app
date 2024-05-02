@@ -4,10 +4,10 @@
     @click.self="$emit('showConfirmModalHandler', false)"
   >
     <div
-      class="bg-white p-12 rounded flex flex-col items-center gap-4 relative cursor-default"
+      class="bg-white p-6 lg:p-12 m-8 rounded flex flex-col items-center gap-4 relative cursor-default"
     >
-      <div class="text-xl font-bold">CONFIRM DELETE</div>
-      <div class="text-lg">Are You Sure You Want To Delete ?</div>
+      <div class="text-lg lg:text-xl font-bold">CONFIRM DELETE</div>
+      <div class="lg:text-lg text-center">Are You Sure You Want To Delete ?</div>
       <button
         class="border-2 border-black w-max px-4 py-1 font-bold hover:bg-black hover:text-white rounded"
         @click="$emit('deleteHandler', id)"
