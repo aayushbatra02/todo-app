@@ -9,18 +9,13 @@ const routes = [
   },
   {
     path: "/add-project",
-    children: [
-      {
-        path: "",
-        name: "addProject",
-        component: () => import("../views/AddProjectView.vue"),
-      },
-      {
-        path: ":editId",
-        name: "editProject",
-        component: () => import("../views/AddProjectView.vue"),
-      },
-    ],
+    name: "addProject",
+    component: () => import("../views/AddProjectView.vue"),
+  },
+  {
+    path: "/update-project/:editId",
+    name: "editProject",
+    component: () => import("../views/AddProjectView.vue"),
   },
 ];
 

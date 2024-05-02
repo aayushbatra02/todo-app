@@ -35,7 +35,7 @@
           :key="project.id"
           @click="detailHandler(project.id)"
         >
-          <div class="flex justify-between flex-wrap">
+          <div class="flex justify-between gap-4">
             <div class="font-semibold text-base md:text-xl overflow-anywhere">
               {{ project.title }}
             </div>
