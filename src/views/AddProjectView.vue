@@ -3,7 +3,7 @@
     <label class="text-gray-400 my-4" for="title">TITLE</label>
     <input
       @input="validateTitle"
-      v-model="title"
+      v-model.trim="title"
       class="focus:border-none p-2 border-b-2 border-gray-200"
       type="text"
     />
@@ -13,7 +13,7 @@
     <label class="text-gray-400 my-4" for="details">DETAILS</label>
     <textarea
       @input="validateDetails"
-      v-model="details"
+      v-model.trim="details"
       class="focus:border-none p-2 border-2 border-gray-20 lg:min-w-80"
       type="text"
     ></textarea>
@@ -88,7 +88,7 @@ export default {
           });
         }
         localStorage.setItem("projects", JSON.stringify(projects));
-        this.$router.push({ name: "projects"});
+        this.$router.push({ name: "projects" });
       }
     },
   },

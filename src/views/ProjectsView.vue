@@ -32,10 +32,12 @@
         @click="detailHandler(project.id)"
       >
         <div class="flex justify-between">
-          <div class="font-semibold text-base md:text-xl">{{ project.title }}</div>
+          <div class="font-semibold text-base md:text-xl">
+            {{ project.title }}
+          </div>
           <div class="flex gap-3 items-center">
             <Icon
-              @click.stop="deleteHandler(project.id)"
+              @click.stop="showConfirmModalHandler(project.id)"
               class="w-5 h-5 lg:w-6 lg:h-6 cursor-pointer text-gray-400 hover:text-red-700"
               icon="ic:baseline-delete"
             />
@@ -50,6 +52,12 @@
               icon="ic:baseline-check"
               :class="[project.isCompleted ? 'text-green-500' : '']"
             />
+            <ConfirmDeleteModal
+              v-if="confirmModalId"
+              @showConfirmModalHandler="showConfirmModalHandler"
+              @deleteHandler="deleteHandler"
+              :id="confirmModalId"
+            />
           </div>
         </div>
         <div v-if="isDescIdPresent(project.id)" class="text-gray-500 mt-2">
@@ -61,15 +69,18 @@
 </template>
 
 <script>
+import ConfirmDeleteModal from "@/components/ConfirmDeleteModal.vue";
 import { Icon } from "@iconify/vue";
+
 export default {
-  components: { Icon },
+  components: { Icon, ConfirmDeleteModal },
   data() {
     return {
       activeFilter: "viewAll",
       projects: [],
       filteredProjects: [],
       detailIds: [],
+      confirmModalId: false,
     };
   },
   mounted() {
@@ -113,12 +124,16 @@ export default {
       this.projects = updatedProjects;
       localStorage.setItem("projects", JSON.stringify(this.projects));
     },
+    showConfirmModalHandler(id) {
+      this.confirmModalId = id;
+    },
     deleteHandler(id) {
       const updatedProjects = this.projects.filter(
         (project) => project.id !== id
       );
       this.projects = updatedProjects;
       localStorage.setItem("projects", JSON.stringify(this.projects));
+      this.showConfirmModalHandler(false);
     },
     isDescIdPresent(id) {
       let isPresent = false;
