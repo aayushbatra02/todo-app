@@ -7,11 +7,12 @@
       class="bg-white p-12 rounded flex flex-col items-center gap-4 relative cursor-default"
     >
       <div class="text-xl font-bold">CONFIRM DELETE</div>
+      <div class="text-lg">Are You Sure You Want To Delete ?</div>
       <button
-        class="border-2 border-black w-max px-4 py-2 font-bold hover:bg-black hover:text-white rounded"
+        class="border-2 border-black w-max px-4 py-1 font-bold hover:bg-black hover:text-white rounded"
         @click="$emit('deleteHandler', id)"
       >
-        CONFIRM
+        YES
       </button>
       <button
         class="absolute top-2 right-2"

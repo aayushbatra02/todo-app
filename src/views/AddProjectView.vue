@@ -44,11 +44,13 @@ export default {
   },
   mounted() {
     this.editId = Number(this.$route.params.editId);
-    const projects = JSON.parse(localStorage.getItem("projects"));
-    const project = projects.find((project) => project.id === this.editId);
-    if (project) {
-      this.title = project.title;
-      this.details = project.details;
+    if (this.editId) {
+      const projects = JSON.parse(localStorage.getItem("projects"));
+      const project = projects.find((project) => project.id === this.editId);
+      if (project) {
+        this.title = project.title;
+        this.details = project.details;
+      }
     }
   },
   methods: {
