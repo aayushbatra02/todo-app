@@ -56,15 +56,21 @@
                 icon="ic:baseline-check"
                 :class="[project.isCompleted ? 'text-green-500' : '']"
               />
-              <ConfirmDeleteModal
-                v-if="confirmModalId"
-                @showConfirmModalHandler="showConfirmModalHandler"
-                @deleteHandler="deleteHandler"
-                :id="confirmModalId"
+              <ConfirmationModal
+                v-if="confirmModalId === project.id"
+                @hideConfirmModalHandler="() => showConfirmModalHandler(false)"
+                @primaryButtonHandler="() => deleteHandler(confirmModalId)"
+                title="Confirm Delete"
+                para="Are You Sure You Want To Delete"
+                primaryButtonText="Yes"
+                secondaryButtonText="No"
               />
             </div>
           </div>
-          <div v-if="isDescIdPresent(project.id)" class="text-gray-500 mt-2 overflow-anywhere">
+          <div
+            v-if="isDescIdPresent(project.id)"
+            class="text-gray-500 mt-2 overflow-anywhere"
+          >
             {{ project.details }}
           </div>
         </div>
@@ -74,12 +80,12 @@
 </template>
 
 <script>
-import ConfirmDeleteModal from "@/components/ConfirmDeleteModal.vue";
+import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import { Icon } from "@iconify/vue";
 import NavBar from "../components/NavBar.vue";
 
 export default {
-  components: { Icon, ConfirmDeleteModal, NavBar },
+  components: { Icon, ConfirmationModal, NavBar },
   data() {
     return {
       activeFilter: "viewAll",
