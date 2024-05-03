@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import ProjectsView from "../views/ProjectsView.vue";
+import NotFound from "@/views/NotFound.vue"
 
 const routes = [
   {
@@ -17,6 +18,7 @@ const routes = [
     name: "editProject",
     component: () => import("../views/AddProjectView.vue"),
   },
+  { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
 ];
 
 const router = createRouter({

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import NavBar from '../components/NavBar.vue';
+import NavBar from "../components/NavBar.vue";
 
 export default {
   components: { NavBar },
@@ -48,16 +48,28 @@ export default {
       editId: null,
     };
   },
-  mounted() {
-    this.editId = Number(this.$route.params.editId);
-    if (this.editId) {
-      const projects = JSON.parse(localStorage.getItem("projects"));
-      const project = projects.find((project) => project.id === this.editId);
-      if (project) {
-        this.title = project.title;
-        this.details = project.details;
-      }
-    }
+  watch: {
+    $route: {
+      handler() {
+        this.editId = this.$route.params.editId;
+        if (this.editId) {
+          const projects = JSON.parse(localStorage.getItem("projects"));
+          const project = projects.find(
+            (project) => project.id === Number(this.editId)
+          );
+          if (project) {
+            this.title = project.title;
+            this.details = project.details;
+          } else {
+            this.$router.push({ path: "/add-project" });
+            this.editId = null;
+            this.title = "";
+            this.details = "";
+          }
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     validateTitle() {
@@ -96,7 +108,7 @@ export default {
           });
         }
         localStorage.setItem("projects", JSON.stringify(projects));
-        this.$router.push({ name: "projects" });
+        this.$router.push({ path: "/" });
       }
     },
   },

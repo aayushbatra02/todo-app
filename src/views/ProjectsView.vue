@@ -4,22 +4,12 @@
     <div class="px-8 text-sm md:text-normal">
       <div class="flex gap-4 text-gray-500 mb-5">
         <button
-          :class="{ 'text-black': activeFilter === 'viewAll' }"
-          @click="filterHandler('viewAll')"
+          v-for="(filter, id) in filters"
+          :key="id"
+          :class="{ 'text-black': activeFilter === filter }"
+          @click="filterHandler(filter)"
         >
-          VIEW ALL
-        </button>
-        <button
-          :class="{ 'text-black': activeFilter === 'completed' }"
-          @click="filterHandler('completed')"
-        >
-          COMPLETED
-        </button>
-        <button
-          :class="{ 'text-black': activeFilter === 'ongoing' }"
-          @click="filterHandler('ongoing')"
-        >
-          ONGOING
+          {{ filter }}
         </button>
       </div>
       <div v-if="filteredProjects.length === 0" class="text-xl font-bold">
@@ -51,29 +41,28 @@
                 @click.stop="editHandler(project.id)"
               />
               <Icon
-                @click.stop="checkHandler(project.id)"
+                @click.stop="handleComplete(project.id)"
                 class="w-5 h-5 lg:w-6 lg:h-6 cursor-pointer text-gray-400"
                 icon="ic:baseline-check"
                 :class="[project.isCompleted ? 'text-green-500' : '']"
               />
-              <ConfirmationModal
-                v-if="confirmModalId === project.id"
-                @hideConfirmModalHandler="() => showConfirmModalHandler(false)"
-                @primaryButtonHandler="() => deleteHandler(confirmModalId)"
-                title="Confirm Delete"
-                para="Are You Sure You Want To Delete"
-                primaryButtonText="Yes"
-                secondaryButtonText="No"
-              />
             </div>
           </div>
           <div
-            v-if="isDescIdPresent(project.id)"
+            v-if="project.showDetails"
             class="text-gray-500 mt-2 overflow-anywhere"
           >
             {{ project.details }}
           </div>
         </div>
+        <ConfirmationModal
+          v-if="confirmModalId"
+          @hideConfirmModalHandler="() => showConfirmModalHandler(false)"
+          @primaryButtonHandler="() => deleteHandler(confirmModalId)"
+          title="Confirm Delete"
+          message="Are You Sure You Want To Delete ?"
+          primaryButtonText="Confirm"
+        />
       </div>
     </div>
   </div>
@@ -88,11 +77,11 @@ export default {
   components: { Icon, ConfirmationModal, NavBar },
   data() {
     return {
-      activeFilter: "viewAll",
+      activeFilter: "VIEW ALL",
       projects: [],
       filteredProjects: [],
-      detailIds: [],
       confirmModalId: false,
+      filters: ["VIEW ALL", "COMPLETED", "ONGOING"],
     };
   },
   mounted() {
@@ -107,13 +96,13 @@ export default {
   methods: {
     filterHandler(filter) {
       switch (filter) {
-        case "completed": {
+        case "COMPLETED": {
           this.filteredProjects = this.projects.filter(
             (project) => project.isCompleted
           );
           break;
         }
-        case "ongoing": {
+        case "ONGOING": {
           this.filteredProjects = this.projects.filter(
             (project) => !project.isCompleted
           );
@@ -126,7 +115,7 @@ export default {
       }
       this.activeFilter = filter;
     },
-    checkHandler(id) {
+    handleComplete(id) {
       const updatedProjects = this.projects.map((project) => {
         if (project.id === id) {
           project.isCompleted = !project.isCompleted;
@@ -147,24 +136,22 @@ export default {
       localStorage.setItem("projects", JSON.stringify(this.projects));
       this.showConfirmModalHandler(false);
     },
-    isDescIdPresent(id) {
-      let isPresent = false;
-      if (this.detailIds.find((descId) => descId === id)) {
-        isPresent = true;
-      }
-      return isPresent;
-    },
     detailHandler(id) {
-      if (this.isDescIdPresent(id)) {
-        const newIds = this.detailIds.filter((descId) => descId !== id);
-        this.detailIds = newIds;
-      } else {
-        const newIds = [...this.detailIds, id];
-        this.detailIds = newIds;
-      }
+      const updatedProjects = this.projects.map((project) => {
+        if (project.id === id) {
+          if (project.showDetails) {
+            project.showDetails = false;
+          } else {
+            project.showDetails = true;
+          }
+        }
+        return project;
+      });
+      this.projects = updatedProjects;
+      console.log(this.projects);
     },
     editHandler(id) {
-      this.$router.push({ name: "editProject", params: { editId: id } });
+      this.$router.push({ path: `/project/${id}` });
     },
   },
   watch: {
@@ -172,7 +159,12 @@ export default {
       this.filterHandler(this.activeFilter);
     },
     activeFilter() {
-      this.detailIds = [];
+      //close all descriptions
+      const updatedProjects = this.projects.map((project) => {
+        project.showDetails = false;
+        return project;
+      });
+      this.projects = updatedProjects;
     },
   },
 };

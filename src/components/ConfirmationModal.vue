@@ -8,7 +8,7 @@
     >
       <div class="text-lg lg:text-xl text-red-500 font-bold">{{ title }}</div>
       <div class="lg:text-lg text-center">
-        {{ para }}
+        {{ message }}
       </div>
       <div class="flex gap-8">
         <button
@@ -21,7 +21,7 @@
           class="border-2 border-gray-500 text-gray-500 w-max px-4 py-1 font-bold hover:bg-gray-500 text-gray-500 hover:text-white rounded"
           @click.stop="$emit('hideConfirmModalHandler')"
         >
-          {{ secondaryButtonText }}
+          Cancel
         </button>
       </div>
       <button
@@ -42,6 +42,6 @@ import { Icon } from "@iconify/vue";
 export default {
   components: { Icon },
   emits: ["hideConfirmModalHandler", "primaryButtonHandler"],
-  props: ["title", "para", "primaryButtonText", "secondaryButtonText"],
+  props: ["title", "message", "primaryButtonText"],
 };
 </script>
