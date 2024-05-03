@@ -92,13 +92,14 @@ export default {
         }
         if (this.editId) {
           const updatedProjects = projects.map((project) => {
-            if (project.id === this.editId) {
+            if (project.id === Number(this.editId)) {
               project.title = this.title;
               project.details = this.details;
             }
             return project;
           });
           projects = updatedProjects;
+          console.log("EDITING ", this.editId);
         } else {
           projects.push({
             id: new Date().getTime(),
@@ -107,6 +108,7 @@ export default {
             isCompleted: false,
           });
         }
+        console.log(projects);
         localStorage.setItem("projects", JSON.stringify(projects));
         this.$router.push({ path: "/" });
       }

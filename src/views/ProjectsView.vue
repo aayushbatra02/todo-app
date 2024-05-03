@@ -148,7 +148,6 @@ export default {
         return project;
       });
       this.projects = updatedProjects;
-      console.log(this.projects);
     },
     editHandler(id) {
       this.$router.push({ path: `/project/${id}` });
